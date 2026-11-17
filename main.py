@@ -12,15 +12,25 @@ from services.incident_service import (
     get_incident_by_id
 )
 
-incidents = load_incidents()
+# Create an engineer and incident
+engineer = Engineer(199, "Ankit Soni", "Implementation")
 
-engineer1 = Engineer(199, "John Doe", "Network Engineer")
+incident = Incident(
+    101,
+    "Database connection failure",
+    "High",
+    engineer
+)
 
-incident1 = Incident(1, "Server down", "High", engineer1)
+incident.update_status("In Progress")
 
-print(incident1.to_dict())
+# Save to JSON
+incidents = [incident]
+save_incidents(incidents)
 
-incident1.update_status("In Progress")
+# Load from JSON
+loaded_incidents = load_incidents()
 
-incidents.append(incident1)
-save_incidents(incidents)   
+# Display reconstructed objects
+for loaded_incident in loaded_incidents:
+    print(loaded_incident.display())

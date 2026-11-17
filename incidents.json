@@ -1,35 +1,13 @@
 [
     {
-        "incident_id": 1,
-        "description": "Server down",
-        "priority": "High",
-        "status": "Open",
-        "assigned_engineer": {
-            "engineer_id": 199,
-            "name": "John Doe",
-            "team": "Network Engineer"
-        }
-    },
-    {
-        "incident_id": 1,
-        "description": "Server down",
+        "incident_id": 101,
+        "description": "Database connection failure",
         "priority": "High",
         "status": "In Progress",
         "assigned_engineer": {
             "engineer_id": 199,
-            "name": "John Doe",
-            "team": "Network Engineer"
-        }
-    },
-    {
-        "incident_id": 1,
-        "description": "Server down",
-        "priority": "High",
-        "status": "In Progress",
-        "assigned_engineer": {
-            "engineer_id": 199,
-            "name": "John Doe",
-            "team": "Network Engineer"
+            "name": "Ankit Soni",
+            "team": "Implementation"
         }
     }
 ]
