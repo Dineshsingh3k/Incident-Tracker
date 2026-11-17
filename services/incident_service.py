@@ -1,52 +1,35 @@
-import json
 
+class incident_service:
 
-def add_incident(incidents, incident_id, description, priority):
-    new_incident = {
-        "id": incident_id,
-        "description": description,
-        "priority": priority,
-        "status": "Open",
-    }
+    def __init__(self, repository):
+        self.repository = repository
+        self.incidents = self.repository.load_incidents()
 
-    incidents.append(new_incident)
+    def add_incident(self, incident):
+        self.incidents.append(incident)
+        self.repository.save_incidents(self.incidents)
 
-    print("Incident added successfully")
-
-
-def list_incidents(incidents):
-    for incident in incidents:
-        print(
-            f"ID : {incident['id']} | "
-            f"Description : {incident['description']} | "
-            f"Priority : {incident['priority']} | "
-            f"Status : {incident['status']}"
-        )
-
-
-def list_open_incidents(incidents):
-    for incident in incidents:
-        if incident["status"] == "Open":
-            print(incident)
-
-
-def update_incident_status(incidents, incident_id, new_status):
-    for incident in incidents:
-        if incident["id"] == incident_id:
-            incident["status"] = new_status
-            print("Incident updated")
-            return
-
-    print("Incident not found")
-
-
-def get_incident_by_id(incidents, incident_id):
-    try:
-        id = int(incident_id)
-        for incident in incidents:
-            if incident["id"] == id:
+    def get_incident_by_id(self, incident_id):
+        for incident in self.incidents:
+            if incident.incident_id == incident_id:
                 return incident
-
         return None
-    except ValueError:
-        print("Invalid incident id. It must be a numeric value")
+
+    def update_incident_status(self, incident_id, new_status):
+        incident = self.get_incident_by_id(incident_id)
+
+        if incident is None:
+            return False
+
+        incident.update_status(new_status)
+        self.repository.save_incidents(self.incidents)
+        return True
+
+    def list_incidents(self):
+        return self.incidents
+
+    def list_open_incidents(self):
+        return [
+            incident for incident in self.incidents
+            if incident.status == "Open"
+        ]

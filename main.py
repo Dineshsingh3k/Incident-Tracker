@@ -2,35 +2,31 @@ from models.Incident import Incident
 from models.InfrastructureIncident import InfrastructureIncident
 from models.SecurityIncident import SecurityIncident
 from models.Engineer import Engineer
-from storage.json_repository import (load_incidents, save_incidents)
+from storage.json_repository import JsonRepository
 
-from services.incident_service import (
-    add_incident,
-    list_incidents,
-    list_open_incidents,
-    update_incident_status,
-    get_incident_by_id
-)
+from services.incident_service import incident_service
 
-# Create an engineer and incident
+repository = JsonRepository()
+service = incident_service(repository)
+
 engineer = Engineer(199, "Ankit Soni", "Implementation")
 
 incident = Incident(
-    101,
-    "Database connection failure",
-    "High",
+    201,
+    "Payment gateway unavailable",
+    "Critical",
     engineer
 )
 
-incident.update_status("In Progress")
+service.add_incident(incident)
 
-# Save to JSON
-incidents = [incident]
-save_incidents(incidents)
+print("\nAll incidents:")
 
-# Load from JSON
-loaded_incidents = load_incidents()
+for item in service.list_incidents():
+    item.display()
 
-# Display reconstructed objects
-for loaded_incident in loaded_incidents:
-    print(loaded_incident.display())
+print("\nUpdating incident status:")
+
+success = service.update_incident_status(201, "In Progress")
+
+print("Update successful:", success)
