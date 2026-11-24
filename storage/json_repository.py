@@ -1,9 +1,10 @@
 
 import json
 from models.Incident import Incident
+from storage.incident_repository import IncidentRepository
 
 
-class JsonRepository:
+class JsonRepository(IncidentRepository):
 
     def __init__(self, file_path="incidents.json"):
         self.file_path = file_path
